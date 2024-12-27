@@ -7,6 +7,7 @@ const askClaudeHandler = async (
   req: RequestBody<{ from: string; message: string }>,
   res: Response
 ) => {
+  console.log("Handling SMS");
   try {
     const anthropic = new AnthropicProvider();
     const twilioClient = twilio(
