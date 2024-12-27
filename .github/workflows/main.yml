@@ -39,7 +39,7 @@ jobs:
 
       - name: Build and Push Container
         run: |-
-          docker-compose build
+          docker build
           docker tag ${{ env.SERVICE_NAME }}:latest gcr.io/${{ secrets.PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ github.sha }}
           docker push gcr.io/${{ secrets.PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ github.sha }}
 
