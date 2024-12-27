@@ -14,11 +14,10 @@ const askClaudeHandler = async (
       process.env.TWILIO_ACCOUNT_SID,
       process.env.TWILIO_AUTH_TOKEN
     );
-    // Get message details from Twilio request
+
     const incomingMessage = req.body.message;
     const fromNumber = req.body.from;
 
-    // Get response from Claude
     const completion = await anthropic.generateResponse({
       messages: [{ role: "user", content: incomingMessage }],
       config: {
@@ -32,15 +31,12 @@ const askClaudeHandler = async (
 
     const responseText = completion.text;
 
-    // Send Claude's response back via Twilio
-
     await twilioClient.messages.create({
       body: responseText,
       to: fromNumber,
       from: process.env.TWILIO_PHONE_NUMBER,
     });
 
-    // Send TwiML response to Twilio
     const twiml = new twilio.twiml.MessagingResponse();
     res.writeHead(200, { "Content-Type": "text/xml" });
     res.end(twiml.toString());
