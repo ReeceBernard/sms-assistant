@@ -8,6 +8,7 @@ export const validateSNSRequest = (
 ) => {
   const twilioSignature = req.headers["x-twilio-signature"] as string;
   const url = `${req.protocol}://${req.get("host")}${req.originalUrl}`;
+  console.log("Validating SNS request", twilioSignature, url, req.body);
 
   const isValid = twilio.validateRequest(
     process.env.TWILIO_AUTH_TOKEN!,
@@ -19,6 +20,7 @@ export const validateSNSRequest = (
   if (isValid) {
     next();
   } else {
+    console.error("Invalid SNS signature");
     res.status(403).json({ error: "Invalid SNS signature" });
   }
 };
